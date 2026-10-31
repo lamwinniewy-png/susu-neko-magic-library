@@ -82,6 +82,7 @@
       bt.onmouseenter = () => setBubble(`《${b.title}》<br>${b.subtitle}`);
       rowMagic.appendChild(bt);
     });
+    rowMagic.insertAdjacentHTML('beforeend','<span class="lean" style="--c:#6b2d3a"></span><span class="candle" aria-hidden="true"></span>');
     // 裝飾書
     const deco = $('#rowDeco'); deco.innerHTML = '';
     const cols = ['#6b2d3a', '#2c4a6b', '#7a6a2c', '#3e2a5a', '#5a3a22', '#26574d', '#8a3c2a', '#40305a'];
@@ -122,9 +123,9 @@
     $('#coverFront').innerHTML = `
       <img class="cv-img" src="assets/img/${cur.pages[0].img}.webp" alt="">
       <div class="cv-title">${cur.title}</div>
-      <div class="cv-sub">Susu 與 Neko 魔法繪本 · ${cur.subtitle}</div>
+      <div class="cv-sub">Susu 與 Neko 魔法繪本<br>${cur.subtitle}</div>
       <button class="cv-open" id="cvOpen">打開魔法書 ✦</button>`;
-    book.classList.remove('open'); book.classList.remove('enter'); void book.offsetWidth; book.classList.add('enter');
+    book.classList.remove('open','enter'); $('#cover').classList.remove('gone'); void book.offsetWidth; book.classList.add('enter'); book.addEventListener('animationend', function f(e){ if(e.target===book){ book.classList.remove('enter'); book.removeEventListener('animationend', f);} });
     lib.classList.remove('is-active'); stage.classList.add('is-active'); stage.setAttribute('aria-hidden', 'false');
     renderSpread();
     $('#coverFront').onclick = openCover;
@@ -132,8 +133,9 @@
   };
   const openCover = () => {
     if (book.classList.contains('open')) return;
-    book.classList.add('open');
+    book.classList.remove('enter'); book.classList.add('open');
     setTimeout(() => popNow(), 650);
+    setTimeout(() => $('#cover').classList.add('gone'), 1150);
   };
   const closeBook = () => {
     speechSynthesis?.cancel();
@@ -145,8 +147,7 @@
 
   const markup = (text, words) => {
     let first = true;
-    return text.replace(/【(.+?)】/g, (_, w) => `<button class="vw ${store.learned[w] ? 'learned' : ''}" data-w="${w}">${w}</button>`)
-      .replace(/^([^<])/, m => `<span class="drop">${m}</span>`);
+    return text.replace(/【(.+?)】([，。！？、」：；]*)/g, (_, w, pu) => `<span class="nb"><button class="vw ${store.learned[w] ? 'learned' : ''}" data-w="${w}">${w}</button>${pu}</span>`);
   };
 
   const frontSVG = (c, a, id) => {
@@ -205,6 +206,7 @@
   const renderSpread = () => {
     const h = pageHTML(spreadIdx);
     $('#pageLeft').innerHTML = h.left; $('#pageRight').innerHTML = h.right;
+    $('#spread').classList.toggle('is-end', spreadIdx === cur.pages.length);
     $('#dots').innerHTML = Array.from({ length: total() }, (_, i) => `<span class="${i === spreadIdx ? 'on' : ''}"></span>`).join('');
     $('#btnPrev').disabled = spreadIdx === 0; $('#btnNext').disabled = spreadIdx === total() - 1;
     $('#btnRead').style.visibility = spreadIdx < cur.pages.length ? 'visible' : 'hidden';
@@ -307,13 +309,14 @@
     };
   }
 
+  const CONFUSE = [['努力','堅持'],['害怕','擔心'],['認真','耐心'],['明亮','漂亮'],['響亮','熱烈'],['果然','忽然','終於'],['驚喜','禮物'],['首先','然後','最後'],['幫忙','合作']];
   function gFill() {
     $('#panelTitle').textContent = '句子填充';
     const all = Object.keys(cur.words), qs = shuffle(all).slice(0, 5);
     let i = 0, right = 0;
     const show = () => {
-      const w = qs[i], opts = shuffle([w, ...shuffle(all.filter(x => x !== w && x.length === w.length)).slice(0, 2).concat(shuffle(all.filter(x => x !== w)).slice(0, 2))].filter((x, k, a) => a.indexOf(x) === k).slice(0, 3));
-      const ops = opts.includes(w) ? opts : [w, ...opts.slice(0, 2)];
+      const w = qs[i]; const bad = new Set(CONFUSE.filter(g => g.includes(w)).flat());
+      const ops = [w, ...shuffle(all.filter(x => x !== w && !bad.has(x))).slice(0, 2)];
       pBody.innerHTML = `<div class="progress"><i style="width:${i / qs.length * 100}%"></i></div>
         <p class="sub">第 ${i + 1} 題 / 共 ${qs.length} 題 · 選出最合適的詞語</p>
         <p class="q">${cur.words[w].fill.replace('＿＿', '<span class="blank">　</span>')}</p>
