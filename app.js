@@ -7,8 +7,8 @@
   /* ---------- 儲存進度 ---------- */
   const KEY = 'magic-library-v1';
   let store = { stars: 0, learned: {}, games: {}, written: {}, voice: 'yue' };
-  try { Object.assign(store, JSON.parse(localStorage.getItem(KEY) || '{}')); } catch (e) {}
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} };
+  // progress kept in memory for this visit
+  const save = () => {};
   const addStars = (n, msg) => { store.stars += n; save(); $('#starCount').textContent = store.stars; toast(msg || `得到 ${n} 粒星星！`); burstStars(); };
   $('#starCount').textContent = store.stars;
 
