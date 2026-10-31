@@ -123,29 +123,45 @@ img{max-width:100%;display:block}
 .tapme i{font-style:normal;background:color-mix(in oklab,var(--book-a) 70%,transparent);padding:0 6px;border-radius:4px;font-weight:700;color:var(--ink)}
 
 /* 立體 pop-up 頁：紙雕舞台 */
-.pop{position:absolute;inset:0;perspective:1100px;perspective-origin:50% 0%}
-.pop-floor{position:absolute;left:4%;right:4%;bottom:4%;height:60%;transform-style:preserve-3d;transform-origin:50% 100%;
-  transform:rotateX(calc(50deg + var(--rx,0deg))) rotateZ(var(--rz,0deg));transition:transform .6s cubic-bezier(.2,.8,.2,1);pointer-events:none;
-  background:radial-gradient(ellipse 60% 40% at 50% 62%,rgba(90,55,20,.22),transparent 70%),radial-gradient(ellipse 50% 30% at 50% 10%,rgba(90,55,20,.12),transparent 70%)}
-.pl{position:absolute;bottom:var(--z);transform-origin:50% 100%;transform:rotateZ(var(--ry,0deg)) rotateX(0deg);transform-style:preserve-3d;backface-visibility:visible}
-.pl svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(0 0 0 #fff) drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 -1px 0 #fff) drop-shadow(0 6px 5px rgba(60,35,10,.28))}
-.pl-card{left:1%;right:1%;aspect-ratio:4/3;background:#fffaf0;padding:6px;border-radius:10px;--up:-80deg;box-shadow:0 1px 0 #d9c49a,0 14px 22px -6px rgba(60,35,10,.35)}
-.pl-card::before{content:"";position:absolute;left:12%;right:12%;bottom:-3px;height:6px;background:#e8d7b0;border-radius:0 0 4px 4px}
-.pl-card img{width:100%;height:100%;object-fit:cover;border-radius:6px;display:block}
-.pl-wing{width:30%;aspect-ratio:1;--up:-86deg}
-.pl-wing.l{left:-6%;--ry:-24deg}
-.pl-wing.r{right:-6%;--ry:24deg}
-.pl-prop{width:13%;aspect-ratio:1;--up:-88deg}
-.pl-prop::after{content:"";position:absolute;left:46%;width:8%;top:85%;height:40%;background:#e8d7b0;border-radius:2px}
-.pl-prop.p1{left:20%}.pl-prop.p2{right:18%}
-.pl-front{left:-2%;right:-2%;height:20%;--up:-90deg}
-.pl-front svg{filter:drop-shadow(0 -3px 4px rgba(0,0,0,.2))}
-.popped .pl{animation:stand 1s cubic-bezier(.3,1.4,.5,1) var(--dl,0s) both}
-.popped.ready .pl{animation:none;transform:rotateZ(var(--ry,0deg)) rotateX(var(--up))}
-.folding .pl,.popped.folding .pl{animation:fold .4s cubic-bezier(.6,0,.9,.5) both}
-.flat .pl{animation:none;transform:rotateZ(var(--ry,0deg)) rotateX(0deg)}
-@keyframes stand{0%{transform:rotateZ(var(--ry,0deg)) rotateX(0deg)}100%{transform:rotateZ(var(--ry,0deg)) rotateX(var(--up))}}
-@keyframes fold{0%{transform:rotateZ(var(--ry,0deg)) rotateX(var(--up))}100%{transform:rotateZ(var(--ry,0deg)) rotateX(0deg)}}
+.pop{position:absolute;inset:0;perspective:900px;perspective-origin:50% 25%;--L:1}
+.pop-floor{position:absolute;left:5%;right:5%;bottom:3%;height:56%;transform-style:preserve-3d;transform-origin:50% 100%;
+  transform:rotateX(calc(60deg + var(--rx,0deg))) rotateZ(var(--rz,0deg));transition:transform .6s cubic-bezier(.2,.8,.2,1);pointer-events:none;
+  background:radial-gradient(ellipse 60% 40% at 50% 62%,rgba(90,55,20,.16),transparent 70%)}
+.pl{position:absolute;bottom:var(--z);transform-origin:50% 100%;transform:rotateZ(var(--ry,0deg)) translateZ(0) rotateX(0deg);transform-style:preserve-3d}
+.pl svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 -1px 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 8px 6px rgba(60,35,10,.3))}
+/* 插圖卡：雙層紙厚度 + 支架 */
+.pl-card{left:-2%;right:-2%;aspect-ratio:4/3;background:#fffaf0;padding:6px;border-radius:10px;--up:-80deg;--lift:52px;box-shadow:0 1px 0 #d9c49a}
+.pl-card img{width:100%;height:100%;object-fit:cover;border-radius:6px;display:block;transform:translateZ(1px)}
+.pl-card .thick{position:absolute;inset:0;border-radius:10px;background:#d8c294;transform:translateZ(-5px);box-shadow:0 0 0 1px #c8ae78}
+.pl-card::before,.pl-card::after{content:"";position:absolute;top:100%;width:11%;height:calc(var(--lift) * var(--L) + 2px);background:linear-gradient(90deg,#e9d8b2,#fff6df 45%,#d9c49a);box-shadow:inset 0 0 0 1px rgba(150,110,60,.25)}
+.pl-card::before{left:14%}.pl-card::after{right:14%}
+.pl-wing{width:31%;aspect-ratio:.82;--up:-78deg;--lift:14px}
+.pl-wing svg{height:100%}
+.pl-wing.l{left:-7%;--ry:-26deg}
+.pl-wing.r{right:-7%;--ry:26deg}
+.pl-prop{width:15%;aspect-ratio:1;--up:-74deg;--lift:40px}
+.pl-prop::after{content:"";position:absolute;left:46%;width:8%;top:92%;height:calc(var(--lift) * var(--L) + 8%);background:linear-gradient(90deg,#d9c49a,#fff6df,#d9c49a);border-radius:2px}
+.pl-prop.p1{left:19%}.pl-prop.p2{right:17%}
+.pl-front{left:-3%;right:-3%;height:22%;--up:-70deg;--lift:0px}
+.pl-front svg{filter:drop-shadow(0 -3px 4px rgba(0,0,0,.22))}
+/* 地面陰影 */
+.sh{position:absolute;bottom:var(--z);height:30%;border-radius:50%;background:radial-gradient(ellipse at 50% 30%,rgba(60,35,10,.38),transparent 70%);filter:blur(6px);opacity:0;transform:scaleY(.4);transform-origin:50% 0}
+.sh-card{left:6%;right:6%}.sh-wl{left:-4%;width:30%}.sh-wr{right:-4%;width:30%}
+.popped .sh{animation:shgrow 1.2s ease-out var(--dl,0s) forwards}
+.folding .sh{animation:none;opacity:0;transition:opacity .3s}
+@keyframes shgrow{to{opacity:1;transform:scaleY(1)}}
+.popped .pl{animation:stand 1.25s cubic-bezier(.25,.9,.3,1) var(--dl,0s) both}
+.folding .pl,.popped.folding .pl{animation:fold .42s cubic-bezier(.6,0,.9,.5) both}
+.flat .pl{animation:none;transform:rotateZ(var(--ry,0deg)) translateZ(0) rotateX(0deg)}
+@keyframes stand{
+  0%{transform:rotateZ(var(--ry,0deg)) translateZ(0) rotateX(0deg) scale(.96)}
+  45%{transform:rotateZ(var(--ry,0deg)) translateZ(calc(var(--lift) * var(--L) * 1.6 + 26px * var(--L))) rotateX(calc(var(--up) - 16deg)) scale(1.06)}
+  70%{transform:rotateZ(var(--ry,0deg)) translateZ(calc(var(--lift) * var(--L) * .85)) rotateX(calc(var(--up) + 7deg)) scale(.99)}
+  86%{transform:rotateZ(var(--ry,0deg)) translateZ(calc(var(--lift) * var(--L) * 1.08)) rotateX(calc(var(--up) - 3deg)) scale(1.01)}
+  100%{transform:rotateZ(var(--ry,0deg)) translateZ(calc(var(--lift) * var(--L))) rotateX(var(--up)) scale(1)}}
+@keyframes fold{
+  0%{transform:rotateZ(var(--ry,0deg)) translateZ(calc(var(--lift) * var(--L))) rotateX(var(--up))}
+  100%{transform:rotateZ(var(--ry,0deg)) translateZ(0) rotateX(0deg)}}
 .floaters{position:absolute;inset:0 0 40% 0;pointer-events:none;opacity:0;transition:opacity .6s}
 .popped .floaters{opacity:1;transition-delay:1s}.folding .floaters{opacity:0;transition-delay:0s}
 .floaters i{position:absolute;left:var(--x);top:calc(var(--y) + 18%);width:calc(18px * var(--s));height:calc(18px * var(--s));animation:bob 3.2s ease-in-out var(--d) infinite}
@@ -341,8 +357,9 @@ img{max-width:100%;display:block}
 }
 @media (max-width:700px){
   .pop-tags{display:none}
-  .pop-floor{height:60%;bottom:3%}
-  .pl-card{left:9%;right:9%}
+  .pop{--L:.5}
+  .pop-floor{height:56%;bottom:3%}
+  .pl-card{left:8%;right:8%}
   .floaters{display:none}
   .spread.is-end{grid-template-rows:auto auto;overflow-y:auto;border-radius:10px}
   .spread.is-end .page-right{order:0}

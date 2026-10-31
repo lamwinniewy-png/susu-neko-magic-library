@@ -23,13 +23,19 @@
     for (const re of want) { const v = voices.find(v => re.test(v.lang) || re.test(v.name)); if (v) return v; }
     return null;
   };
+  // 朗讀：優先播放預先錄製的小朋友聲音，找不到才用瀏覽器語音
+  let player = null;
+  const stopSay = () => { if (player) { player.pause(); player = null; } try { speechSynthesis.cancel(); } catch (e) {} };
   const say = (text, rate = 0.85) => {
+    const key = text.replace(/[【】]/g, '').trim();
+    stopSay();
+    const f = window.AUDIO?.[store.voice]?.[key];
+    if (f) { player = new Audio(`assets/audio/${store.voice}/${f}.mp3`); player.play().catch(() => {}); return; }
     if (!('speechSynthesis' in window)) { toast('這個瀏覽器未能朗讀，請大人幫忙讀一讀'); return; }
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text.replace(/[【】]/g, ''));
+    const u = new SpeechSynthesisUtterance(key);
     const v = pickVoice(); if (v) u.voice = v;
     u.lang = store.voice === 'yue' ? 'zh-HK' : 'zh-CN';
-    u.rate = rate; u.pitch = 1.1;
+    u.rate = rate; u.pitch = 1.6;
     speechSynthesis.speak(u);
   };
   const vBtn = $('#btnVoice');
@@ -138,7 +144,7 @@
     setTimeout(() => $('#cover').classList.add('gone'), 1150);
   };
   const closeBook = () => {
-    speechSynthesis?.cancel();
+    stopSay();
     stage.classList.remove('is-active'); stage.setAttribute('aria-hidden', 'true'); lib.classList.add('is-active');
     renderShelf();
     setBubble(cur && Object.keys(store.games[cur.id] || {}).length ? '你好叻呀！<br>再揀另一本魔法書吧！' : '歡迎回來！<br>想看哪一本魔法書？');
@@ -193,7 +199,8 @@
     const fl = Array.from({length:7},(_,i)=>`<i style="--x:${8+i*13}%;--y:${8+(i*37)%40}%;--d:${(i*.7)%3}s;--s:${.8+(i%3)*.35}">${'<svg viewBox="0 0 20 20">'+floatSVG(id,a)+'</svg>'}</i>`).join('');
     return `<div class="pop">
       <div class="pop-floor">
-        <div class="pl pl-card" style="--z:46%;--dl:.05s"><img src="assets/img/${p.img}.webp" alt="故事插圖：第 ${idx + 1} 頁" loading="eager"></div>
+        <div class="sh sh-card" style="--z:46%;--dl:.2s"></div><div class="sh sh-wl" style="--z:24%;--dl:.4s"></div><div class="sh sh-wr" style="--z:24%;--dl:.45s"></div>
+        <div class="pl pl-card" style="--z:46%;--dl:.05s"><i class="thick"></i><img src="assets/img/${p.img}.webp" alt="故事插圖：第 ${idx + 1} 頁" loading="eager"></div>
         <div class="pl pl-wing l" style="--z:24%;--dl:.3s">${wingSVG(id,c,a,false)}</div>
         <div class="pl pl-wing r" style="--z:24%;--dl:.38s">${wingSVG(id,c,a,true)}</div>
         <div class="pl pl-prop p1" style="--z:16%;--dl:.55s">${propSVG(id,c,a,0)}</div>
@@ -256,7 +263,7 @@
     if (busy || !cur) return;
     const n = spreadIdx + dir; if (n < 0 || n >= total()) return;
     if (!book.classList.contains('open')) { openCover(); return; }
-    speechSynthesis?.cancel();
+    stopSay();
     const leaf = $('#leaf');
     if (innerWidth <= 700 || reduce) { spreadIdx = n; renderSpread(); return; }
     busy = true;
