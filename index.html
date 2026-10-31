@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Susu 與 Neko 的魔法圖書館</title>
+<meta name="description" content="以繪本故事學中文詞語：小二、小三中文詞彙魔法書、詞語遊戲及寫字練習。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;600;800&family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<canvas id="sparkles" aria-hidden="true"></canvas>
+
+<!-- ===== 圖書館 ===== -->
+<main id="library" class="screen is-active" aria-label="魔法圖書館">
+  <div class="lib-bg" aria-hidden="true"></div>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-moon" aria-hidden="true"></span>
+      <div>
+        <h1>Susu 與 Neko 的魔法圖書館</h1>
+        <p>打開魔法書，學會新詞語</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="chip" id="btnStars" aria-label="我的星星"><span class="star-ico" aria-hidden="true">★</span><b id="starCount">0</b></button>
+      <button class="chip" id="btnBox">詞語寶盒</button>
+      <button class="chip" id="btnVoice" aria-label="切換讀音">粵語</button>
+    </div>
+  </header>
+
+  <section class="room" aria-label="書櫃">
+    <div class="shelf-wrap" id="shelfWrap">
+      <div class="shelf" id="shelf">
+        <div class="shelf-crown" aria-hidden="true"><span>魔法書櫃</span></div>
+        <div class="shelf-row" id="rowMagic"></div>
+        <div class="shelf-board" aria-hidden="true"></div>
+        <div class="shelf-row deco" id="rowDeco"></div>
+        <div class="shelf-board" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="guide" id="guide">
+      <img src="assets/img/duo.webp" alt="Susu（紅色裙子）和 Neko（白色衣服）" class="guide-img" draggable="false">
+      <div class="bubble" id="bubble" role="status">歡迎來到魔法圖書館！<br>從書櫃拿一本魔法書吧！</div>
+    </div>
+  </section>
+</main>
+
+<!-- ===== 書本舞台 ===== -->
+<section id="stage" class="screen" aria-label="魔法書" aria-hidden="true">
+  <div class="stage-bg" aria-hidden="true"></div>
+  <div class="stage-top">
+    <button class="chip ghost" id="btnBack">← 放回書櫃</button>
+    <div class="stage-title" id="stageTitle"></div>
+    <button class="chip ghost" id="btnRead" aria-label="朗讀這一頁">朗讀</button>
+  </div>
+
+  <div class="book-scene" id="bookScene">
+    <div class="book" id="book">
+      <!-- 封面 -->
+      <div class="cover" id="cover">
+        <div class="cover-front" id="coverFront"></div>
+        <div class="cover-back"></div>
+      </div>
+      <div class="spread" id="spread">
+        <article class="page page-left" id="pageLeft"></article>
+        <article class="page page-right" id="pageRight"></article>
+      </div>
+      <div class="leaf" id="leaf" aria-hidden="true"><div class="leaf-front"></div><div class="leaf-back"></div></div>
+    </div>
+  </div>
+
+  <nav class="pager" aria-label="翻頁">
+    <button class="round" id="btnPrev" aria-label="上一頁">‹</button>
+    <div class="dots" id="dots"></div>
+    <button class="round" id="btnNext" aria-label="下一頁">›</button>
+  </nav>
+</section>
+
+<!-- ===== 詞語卡 ===== -->
+<div class="modal" id="wordModal" role="dialog" aria-modal="true" aria-labelledby="wmWord" hidden>
+  <div class="word-card">
+    <button class="x" data-close aria-label="關閉">×</button>
+    <div class="wm-ribbon">魔法詞語</div>
+    <div class="wm-word" id="wmWord"></div>
+    <div class="wm-actions">
+      <button class="chip" id="wmSay">讀一讀</button>
+      <button class="chip" id="wmWrite">寫一寫</button>
+    </div>
+    <p class="wm-mean" id="wmMean"></p>
+    <p class="wm-sent" id="wmSent"></p>
+  </div>
+</div>
+
+<!-- ===== 遊戲 / 寶盒 ===== -->
+<div class="modal" id="panel" role="dialog" aria-modal="true" aria-labelledby="panelTitle" hidden>
+  <div class="scroll">
+    <button class="x" data-close aria-label="關閉">×</button>
+    <h2 id="panelTitle"></h2>
+    <div id="panelBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/js/hanzi-writer.min.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
