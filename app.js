@@ -193,7 +193,7 @@
     return {
       left: `<div class="end">
           <h3>故事完了！</h3>
-          <p>這本魔法書藏着 ${all.length} 個魔法詞語。點一點，溫習一下吧！</p>
+          <p>這本魔法書藏着 ${all.length} 個魔法詞語。點一點，温習一下吧！</p>
           <div class="wordwall">${all.map(w => `<button class="vw ${store.learned[w] ? 'learned' : ''}" data-w="${w}">${w}</button>`).join('')}</div>
           <div class="pattern"><b>句式小魔法：</b>「${cur.pattern.name}」${cur.pattern.tip}<br>例：${cur.pattern.example}</div>
         </div>`,

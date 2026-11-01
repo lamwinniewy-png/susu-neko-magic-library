@@ -14,11 +14,11 @@ window.BOOKS = [
         prompt: "the two dolls standing in wonder at the entrance of a lush dense green paper-craft forest, sunbeams on a sunny clear morning, a green magic book open on the ground glowing, gentle breeze lifting leaves" },
       { img: "forest-2", text: "森林裏有一條【清澈】的【小溪】，小魚在水中游來游去。Susu一邊唱歌，一邊和Neko沿着小溪【散步】。",
         prompt: "the two dolls walking hand in hand along a crystal-clear little stream made of layered blue paper and real-looking water, tiny paper fish swimming, Susu singing with mouth open happily, musical notes in the air" },
-      { img: "forest-3", text: "她們走着走着，竟然【迷路】了。Neko有點【害怕】，Susu緊緊拉着她的手說：「別【擔心】，我們一起想辦法！」",
+      { img: "forest-3", text: "她們走着走着，竟然【迷路】了。Neko有點【害怕】，Susu緊緊拉着她的手説：「別【擔心】，我們一起想辦法！」",
         prompt: "the two dolls standing at a forked path deep in a slightly darker but still cute paper forest, Neko looking a little scared clinging to Susu, Susu holding her hand bravely and reassuringly, tall trees around" },
-      { img: "forest-4", text: "這時，一隻小松鼠跳了出來說：「跟着會唱歌的花朵走，就能找到【出口】。」她們【仔細】地聽，【果然】聽見花朵在唱歌。",
+      { img: "forest-4", text: "這時，一隻小松鼠跳了出來説：「跟着會唱歌的花朵走，就能找到【出口】。」她們【仔細】地聽，【果然】聽見花朵在唱歌。",
         prompt: "a cute fluffy felt squirrel on a tree stump talking to the two dolls, a trail of glowing paper flowers with tiny musical notes leading away, the dolls leaning in listening carefully with hands near ears" },
-      { img: "forest-5", text: "她們【終於】回到圖書館。Susu笑着說：「多謝小松鼠的【幫助】，今天真是【有趣】的一天！」",
+      { img: "forest-5", text: "她們【終於】回到圖書館。Susu笑着説：「多謝小松鼠的【幫助】，今天真是【有趣】的一天！」",
         prompt: "the two dolls back inside a cozy magical library, sitting on a rug happily, the green book closing with sparkles and a tiny squirrel figure waving goodbye from the pages, warm lantern light" }
     ],
     words: {
@@ -33,7 +33,7 @@ window.BOOKS = [
       "擔心": { mean: "心裏放不下，怕有不好的事。", fill: "媽媽很＿＿生病的妹妹。" },
       "出口": { mean: "可以從裏面走出去的地方。", fill: "看完電影，我們從＿＿離開。" },
       "仔細": { mean: "做事很小心，不馬虎。", fill: "做功課時要＿＿，不要寫錯字。" },
-      "果然": { mean: "事情真的和想的一樣。", fill: "天氣報告說會下雨，＿＿下雨了。" },
+      "果然": { mean: "事情真的和想的一樣。", fill: "天氣報告説會下雨，＿＿下雨了。" },
       "終於": { mean: "經過很久，最後做到了。", fill: "我練習了很多次，＿＿學會游泳。" },
       "幫助": { mean: "出力去幫別人。", fill: "同學之間要互相＿＿。" },
       "有趣": { mean: "好玩，能引起興趣。", fill: "這本故事書很＿＿，我看了三次。" }
@@ -44,19 +44,19 @@ window.BOOKS = [
     id: "ocean",
     title: "海底生日會",
     subtitle: "句式：因為……所以……",
-    pattern: { name: "因為……所以……", tip: "前面說原因，後面說結果。", example: "因為她們想送驚喜，所以跳進魔法書。" },
+    pattern: { name: "因為……所以……", tip: "前面説原因，後面説結果。", example: "因為她們想送驚喜，所以跳進魔法書。" },
     color: "#1d5f8a", accent: "#f4a6b8", spine: "#174c70",
     emblem: "shell",
     pages: [
       { img: "ocean-1", text: "今天是海龜爺爺的生日。因為Susu和Neko想為爺爺【慶祝】，給他一個【驚喜】，所以她們跳進魔法書，來到藍色的【海洋】。",
         prompt: "the two dolls diving playfully into a bright blue paper-craft ocean wearing tiny clear bubble helmets, sunlight rays through layered blue paper waves, a wise old felt sea turtle with a little party hat sleeping in the distance" },
-      { img: "ocean-2", text: "海底有【美麗】的珊瑚，還有閃閃發光的貝殼。Neko【小心】地拾起一個貝殼，說：「這個可以送給爺爺做【禮物】！」",
+      { img: "ocean-2", text: "海底有【美麗】的珊瑚，還有閃閃發光的貝殼。Neko【小心】地拾起一個貝殼，説：「這個可以送給爺爺做【禮物】！」",
         prompt: "the two dolls on a sandy sea floor among colourful paper-craft coral reef, Neko carefully picking up a shimmering pearly seashell with both hands, Susu clapping happily, tiny bubbles" },
       { img: "ocean-3", text: "小魚、八爪魚和海星都來【幫忙】。大家分工【合作】，有的掛彩燈，有的做蛋糕，十分【熱鬧】。",
         prompt: "a lively underwater party preparation: a felt octopus hanging colourful paper lanterns, little paper fish carrying ribbons, a starfish decorating a sea-themed layered cake, the two dolls helping put candles on the cake, festive and busy" },
-      { img: "ocean-4", text: "海龜爺爺【慢慢】地游過來，大家【齊聲】說：「生日快樂！」爺爺【感動】得說不出話來。",
+      { img: "ocean-4", text: "海龜爺爺【慢慢】地游過來，大家【齊聲】説：「生日快樂！」爺爺【感動】得説不出話來。",
         prompt: "the old felt sea turtle with a party hat arriving slowly, touched with a happy teary smile, the two dolls and all the sea friends shouting happy birthday together with arms raised, glowing cake with candles, confetti bubbles" },
-      { img: "ocean-5", text: "爺爺說：「最好的禮物，是和【朋友】一起【分享】快樂。」Susu和Neko點點頭，因為她們【明白】了分享的意思。",
+      { img: "ocean-5", text: "爺爺説：「最好的禮物，是和【朋友】一起【分享】快樂。」Susu和Neko點點頭，因為她們【明白】了分享的意思。",
         prompt: "the two dolls sitting with the old sea turtle and sea creature friends sharing slices of cake in a circle on the sea floor, warm cozy glow, the seashell gift beside the turtle" }
     ],
     words: {
@@ -70,8 +70,8 @@ window.BOOKS = [
       "合作": { mean: "大家一起做同一件事。", fill: "我們分組＿＿完成了圖畫。" },
       "熱鬧": { mean: "人多聲音多，很有氣氛。", fill: "新年的街道十分＿＿。" },
       "慢慢": { mean: "不快地、一點一點地。", fill: "老婆婆＿＿地走上樓梯。" },
-      "齊聲": { mean: "大家一起發出聲音。", fill: "同學們＿＿說：「老師早晨！」" },
-      "感動": { mean: "心裏受到觸動，很想哭或很溫暖。", fill: "這個故事令我很＿＿。" },
+      "齊聲": { mean: "大家一起發出聲音。", fill: "同學們＿＿説：「老師早晨！」" },
+      "感動": { mean: "心裏受到觸動，很想哭或很温暖。", fill: "這個故事令我很＿＿。" },
       "朋友": { mean: "彼此要好、互相關心的人。", fill: "小明是我最好的＿＿。" },
       "分享": { mean: "把好東西和別人一起用、一起享受。", fill: "我把糖果＿＿給同學。" },
       "明白": { mean: "知道、懂得。", fill: "聽了老師的解釋，我＿＿了。" }
@@ -82,7 +82,7 @@ window.BOOKS = [
     id: "moon",
     title: "月亮餅店",
     subtitle: "句式：首先……然後……最後……",
-    pattern: { name: "首先……然後……最後……", tip: "按次序說出做事的步驟。", example: "首先搓圓餡料，然後包好，最後壓一壓。" },
+    pattern: { name: "首先……然後……最後……", tip: "按次序説出做事的步驟。", example: "首先搓圓餡料，然後包好，最後壓一壓。" },
     color: "#7a3b6e", accent: "#ffd27a", spine: "#5f2c56",
     emblem: "moon",
     pages: [
@@ -90,11 +90,11 @@ window.BOOKS = [
         prompt: "a tiny cozy bakery built on the surface of a glowing paper-craft full moon, starry night sky, a felt white rabbit baker with an apron arranging bowls of ingredients like lotus paste and egg yolks on a wooden table, the two dolls arriving and peeking in the door with excitement" },
       { img: "moon-2", text: "兔子店長教她們做月餅：【首先】把餡料搓成圓球，【然後】用餅皮包好，【最後】放進木模子裏壓一壓。",
         prompt: "the felt rabbit baker demonstrating mooncake making to the two dolls at a flour-dusted table, Neko rolling a ball of filling, Susu wrapping dough, a carved wooden mooncake mould, three steps visible" },
-      { img: "moon-3", text: "Neko做得很【認真】，Susu卻太【心急】，月餅都壓扁了。店長笑着說：「做事要有【耐心】啊！」",
+      { img: "moon-3", text: "Neko做得很【認真】，Susu卻太【心急】，月餅都壓扁了。店長笑着説：「做事要有【耐心】啊！」",
         prompt: "Neko concentrating seriously on a neat perfect mooncake, Susu looking sheepish with a squashed flat mooncake, the felt rabbit baker laughing kindly, flour on Susu's cheek, funny and warm" },
       { img: "moon-4", text: "月餅放進烤爐後，整間餅店都變得【香噴噴】的。她們又一起做了很多【漂亮】的【燈籠】。",
         prompt: "golden baked mooncakes coming out of a little round oven with steam swirls, the two dolls holding colourful traditional Chinese paper lanterns in rabbit and star shapes, bakery decorated with lanterns, warm golden glow" },
-      { img: "moon-5", text: "晚上，月光又【明亮】又溫柔，大家提着燈籠，一邊吃月餅，一邊賞月。Susu說：「和家人【團圓】，真【幸福】！」",
+      { img: "moon-5", text: "晚上，月光又【明亮】又温柔，大家提着燈籠，一邊吃月餅，一邊賞月。Susu説：「和家人【團圓】，真【幸福】！」",
         prompt: "the two dolls sitting together on a soft hill with the felt rabbit and a cosy family of felt rabbits, holding glowing lanterns and eating mooncakes, looking up at a huge bright full moon, Mid-Autumn festival night, deeply peaceful and happy" }
     ],
     words: {
@@ -132,7 +132,7 @@ window.BOOKS = [
         prompt: "aerial miniature diorama of a rainy Hong Kong street: a green double-decker Hong Kong tram (ding ding), red taxis, tiny people with colourful umbrellas queuing neatly in a straight line at a tram stop, neon-free shop signs without readable text, the two dolls floating above with their umbrella looking down" },
       { img: "rain-4", text: "她們看見一隻小貓在路邊【淋雨】，全身都濕了。Susu和Neko【連忙】飛下去，用雨傘為小貓擋雨。她們很【關心】小貓。",
         prompt: "a small wet shivering felt kitten sitting by the roadside in the rain, Susu holding the red polka-dot umbrella over it, Neko kneeling gently stroking the kitten, rain puddles reflecting light" },
-      { img: "rain-5", text: "雨停了，天空出現一道【彩虹】。雖然衣服有點濕，但是能幫助【別人】，她們心裏覺得很【溫暖】。",
+      { img: "rain-5", text: "雨停了，天空出現一道【彩虹】。雖然衣服有點濕，但是能幫助【別人】，她們心裏覺得很【温暖】。",
         prompt: "after the rain, a bright paper-craft rainbow arching across a clearing sky over Hong Kong rooftops, the two dolls sitting on a ledge with the dry happy kitten in Neko's arms, the closed umbrella beside them, sunshine and sparkling puddles" }
     ],
     words: {
@@ -150,7 +150,7 @@ window.BOOKS = [
       "關心": { mean: "把人或事放在心上，很在意。", fill: "老師很＿＿每一位同學。" },
       "彩虹": { mean: "雨後天空出現的七色彩帶。", fill: "雨後，天邊出現了一道＿＿。" },
       "別人": { mean: "自己以外的人。", fill: "我們要尊重＿＿的意見。" },
-      "溫暖": { mean: "不冷，很舒服；也指心裏暖暖的。", fill: "媽媽的擁抱很＿＿。" }
+      "温暖": { mean: "不冷，很舒服；也指心裏暖暖的。", fill: "媽媽的擁抱很＿＿。" }
     },
     write: ["雨", "傘", "雲", "街", "彩", "暖"]
   },
@@ -170,7 +170,7 @@ window.BOOKS = [
         prompt: "at a sand pit long-jump area, a felt monkey who fell down being helped up by a kind felt elephant stretching out its long trunk like a rope, the two dolls rushing over with concern, sand flying" },
       { img: "sports-4", text: "最後是【接力】賽，每個【隊員】都把棒子交給下一位。大家的笑聲像音樂一樣【響亮】。",
         prompt: "a relay race with felt animals passing a colourful baton, the two dolls blowing whistles, crowd of animals laughing loudly with musical notes floating, lively and joyful" },
-      { img: "sports-5", text: "頒獎時，Susu說：「贏了很開心，但最重要的是大家都盡力了，而且【互相】【鼓勵】。」動物們都【熱烈】地拍手。",
+      { img: "sports-5", text: "頒獎時，Susu説：「贏了很開心，但最重要的是大家都盡力了，而且【互相】【鼓勵】。」動物們都【熱烈】地拍手。",
         prompt: "an award podium ceremony with felt animals receiving shiny medals, the tortoise also smiling with a medal, the two dolls standing in front speaking, all animals clapping enthusiastically, confetti and bunting" }
     ],
     words: {
@@ -187,7 +187,7 @@ window.BOOKS = [
       "隊員": { mean: "一個隊伍裏的成員。", fill: "籃球隊的＿＿一起練習。" },
       "響亮": { mean: "聲音又大又清楚。", fill: "他回答問題的聲音很＿＿。" },
       "互相": { mean: "彼此對對方做同樣的事。", fill: "兄弟姊妹要＿＿愛護。" },
-      "鼓勵": { mean: "說好話令別人更有信心。", fill: "媽媽常常＿＿我要勇敢。" },
+      "鼓勵": { mean: "説好話令別人更有信心。", fill: "媽媽常常＿＿我要勇敢。" },
       "熱烈": { mean: "很興奮、很有氣氛。", fill: "表演完畢，觀眾＿＿地拍手。" }
     },
     write: ["運", "動", "比", "賽", "努", "力"]
