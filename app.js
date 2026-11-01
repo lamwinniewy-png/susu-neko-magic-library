@@ -29,13 +29,14 @@
   const say = (text, rate = 0.85) => {
     const key = text.replace(/[【】]/g, '').trim();
     stopSay();
-    const f = window.AUDIO?.[store.voice]?.[key];
+    // 粵語用裝置內置的香港廣東話語音；普通話用預錄的小朋友聲音
+    const f = store.voice === 'cmn' ? window.AUDIO?.cmn?.[key] : null;
     if (f) { player = new Audio(`assets/audio/${store.voice}/${f}.mp3`); player.play().catch(() => {}); return; }
     if (!('speechSynthesis' in window)) { toast('這個瀏覽器未能朗讀，請大人幫忙讀一讀'); return; }
     const u = new SpeechSynthesisUtterance(key);
     const v = pickVoice(); if (v) u.voice = v;
     u.lang = store.voice === 'yue' ? 'zh-HK' : 'zh-CN';
-    u.rate = rate; u.pitch = 1.6;
+    u.rate = rate; u.pitch = 1.1;
     speechSynthesis.speak(u);
   };
   const vBtn = $('#btnVoice');
@@ -215,7 +216,7 @@
     $('#spread').classList.toggle('is-end', spreadIdx === cur.pages.length);
     $('#dots').innerHTML = Array.from({ length: total() }, (_, i) => `<span class="${i === spreadIdx ? 'on' : ''}"></span>`).join('');
     $('#btnPrev').disabled = spreadIdx === 0; $('#btnNext').disabled = spreadIdx === total() - 1;
-    $('#btnRead').style.visibility = spreadIdx < cur.pages.length ? 'visible' : 'hidden';
+    $('#btnRead').style.visibility = spreadIdx < cur.pages.length ? '' : 'hidden';
     if (book.classList.contains('open')) popNow();
   };
   const popNow = () => { const pop = $('#pageRight .pop'); if (!pop) return; pop.classList.remove('popped'); void pop.offsetWidth; pop.classList.add('popped'); };
