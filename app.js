@@ -257,7 +257,36 @@
     $('#btnRead').style.visibility = spreadIdx < cur.pages.length ? 'visible' : 'hidden';
     if (book.classList.contains('open')) popNow();
   };
-  const popNow = () => { const pop = $('#pageRight .pop'); if (!pop) return; pop.classList.remove('popped'); void pop.offsetWidth; pop.classList.add('popped'); };
+  // 紙雕動畫：用 JS 計算數值，避免部分 Safari 不支援關鍵幀內的 CSS 變數
+  const plVals = (el, L) => {
+    const cs = getComputedStyle(el), n = (k, d) => { const v = parseFloat(cs.getPropertyValue(k)); return isNaN(v) ? d : v; };
+    return { up: n('--up', -80), ry: n('--ry', 0), lift: n('--lift', 0) * L, dl: n('--dl', 0) * 1000 };
+  };
+  const tf = (ry, z, x, sc = 1) => `rotateZ(${ry}deg) translateZ(${z}px) rotateX(${x}deg) scale(${sc})`;
+  const popLayers = (pop, mode) => {
+    const L = parseFloat(getComputedStyle(pop).getPropertyValue('--L')) || 1;
+    $$('.pl', pop).forEach(el => {
+      const v = plVals(el, L); el.getAnimations().forEach(a => a.cancel());
+      const up = tf(v.ry, v.lift, v.up), flat = tf(v.ry, 0, 0);
+      if (mode === 'flat') { el.style.transform = flat; return; }
+      if (reduce) { el.style.transform = mode === 'up' ? up : flat; return; }
+      if (mode === 'up') {
+        el.style.transform = flat;
+        const a = el.animate([
+          { transform: tf(v.ry, 0, 0, .96) },
+          { transform: tf(v.ry, v.lift * 1.6 + 26 * L, v.up - 16, 1.06), offset: .45 },
+          { transform: tf(v.ry, v.lift * .85, v.up + 7, .99), offset: .7 },
+          { transform: tf(v.ry, v.lift * 1.08, v.up - 3, 1.01), offset: .86 },
+          { transform: up }
+        ], { duration: 1250, delay: v.dl, easing: 'cubic-bezier(.25,.9,.3,1)', fill: 'both' });
+        a.onfinish = () => { el.style.transform = up; a.cancel(); };
+      } else {
+        const from = el.style.transform || up; el.style.transform = flat;
+        el.animate([{ transform: from }, { transform: flat }], { duration: 420, easing: 'cubic-bezier(.6,0,.9,.5)' });
+      }
+    });
+  };
+  const popNow = () => { const pop = $('#pageRight .pop'); if (!pop) return; pop.classList.remove('popped', 'folding'); popLayers(pop, 'flat'); void pop.offsetWidth; pop.classList.add('popped'); popLayers(pop, 'up'); };
 
   const flip = (dir) => {
     if (busy || !cur) return;
@@ -268,7 +297,7 @@
     if (innerWidth <= 700 || reduce) { spreadIdx = n; renderSpread(); return; }
     busy = true;
     const curPop = $('#pageRight .pop');
-    if (curPop && curPop.classList.contains('popped')) { curPop.classList.add('folding'); setTimeout(() => doFlip(n, dir), 420); }
+    if (curPop && curPop.classList.contains('popped')) { curPop.classList.add('folding'); popLayers(curPop, 'fold'); setTimeout(() => doFlip(n, dir), 420); }
     else doFlip(n, dir);
   };
   const doFlip = (n, dir) => {
@@ -283,7 +312,7 @@
       front.innerHTML = $('#pageLeft').innerHTML; back.innerHTML = nh.right;
       $('#pageLeft').innerHTML = nh.left;
     }
-    front.querySelector('.pop')?.classList.add('flat');
+    { const fp = front.querySelector('.pop'); if (fp) { fp.classList.add('flat'); } }
     leaf.style.display = 'block'; void leaf.offsetWidth; leaf.classList.add('go');
     setTimeout(() => { spreadIdx = n; leaf.style.display = 'none'; leaf.className = 'leaf'; renderSpread(); busy = false; }, 820);
   };
@@ -303,11 +332,11 @@
 
   // 立體傾斜：轉動紙雕舞台
   $('#pageRight').addEventListener('pointermove', e => {
-    const f = $('#pageRight .popped .pop-floor'); if (!f || reduce) return;
+    const f = $('#pageRight .popped .pop-floor'); if (!f || reduce || e.pointerType !== 'mouse') return; f.classList.add('manual');
     const r = e.currentTarget.getBoundingClientRect(); const nx = (e.clientX - r.left) / r.width - .5, ny = (e.clientY - r.top) / r.height - .5;
     f.style.setProperty('--rz', `${nx * -10}deg`); f.style.setProperty('--rx', `${ny * 8}deg`);
   });
-  $('#pageRight').addEventListener('pointerleave', () => { const f = $('#pageRight .pop-floor'); f?.style.setProperty('--rz','0deg'); f?.style.setProperty('--rx','0deg'); });
+  $('#pageRight').addEventListener('pointerleave', () => { const f = $('#pageRight .pop-floor'); f?.classList.remove('manual'); f?.style.setProperty('--rz','0deg'); f?.style.setProperty('--rx','0deg'); });
 
   /* ---------- 詞語卡 ---------- */
   const findWord = (w) => { for (const b of BOOKS) if (b.words[w]) return { b, d: b.words[w] }; };

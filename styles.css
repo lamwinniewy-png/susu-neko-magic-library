@@ -124,10 +124,10 @@ img{max-width:100%;display:block}
 
 /* 立體 pop-up 頁：紙雕舞台 */
 .pop{position:absolute;inset:0;perspective:900px;perspective-origin:50% 25%;--L:1}
-.pop-floor{position:absolute;left:5%;right:5%;bottom:3%;height:56%;transform-style:preserve-3d;transform-origin:50% 100%;
+.pop-floor{-webkit-transform-style:preserve-3d;position:absolute;left:5%;right:5%;bottom:3%;height:56%;transform-style:preserve-3d;transform-origin:50% 100%;
   transform:rotateX(calc(60deg + var(--rx,0deg))) rotateZ(var(--rz,0deg));transition:transform .6s cubic-bezier(.2,.8,.2,1);pointer-events:none;
   background:radial-gradient(ellipse 60% 40% at 50% 62%,rgba(90,55,20,.16),transparent 70%)}
-.pl{position:absolute;bottom:var(--z);transform-origin:50% 100%;transform:rotateZ(var(--ry,0deg)) translateZ(0) rotateX(0deg);transform-style:preserve-3d}
+.pl{position:absolute;bottom:var(--z);transform-origin:50% 100%;-webkit-transform-style:preserve-3d;transform-style:preserve-3d;will-change:transform}
 .pl svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff) drop-shadow(0 -1px 0 #fff) drop-shadow(0 1px 0 #fff) drop-shadow(0 8px 6px rgba(60,35,10,.3))}
 /* 插圖卡：雙層紙厚度 + 支架 */
 .pl-card{left:-2%;right:-2%;aspect-ratio:4/3;background:#fffaf0;padding:6px;border-radius:10px;--up:-80deg;--lift:52px;box-shadow:0 1px 0 #d9c49a}
@@ -149,19 +149,12 @@ img{max-width:100%;display:block}
 .sh-card{left:6%;right:6%}.sh-wl{left:-4%;width:30%}.sh-wr{right:-4%;width:30%}
 .popped .sh{animation:shgrow 1.2s ease-out var(--dl,0s) forwards}
 .folding .sh{animation:none;opacity:0;transition:opacity .3s}
+@keyframes sway{0%,100%{transform:rotateX(60deg) rotateZ(-6deg)}50%{transform:rotateX(55deg) rotateZ(6deg)}}
+.popped .pop-floor{animation:sway 7s ease-in-out 2.2s infinite}
+.popped .pop-floor.manual,.folding .pop-floor{animation:none}
+@media (max-width:700px){@keyframes sway{0%,100%{transform:rotateX(60deg) rotateZ(-4deg)}50%{transform:rotateX(56deg) rotateZ(4deg)}}}
 @keyframes shgrow{to{opacity:1;transform:scaleY(1)}}
-.popped .pl{animation:stand 1.25s cubic-bezier(.25,.9,.3,1) var(--dl,0s) both}
-.folding .pl,.popped.folding .pl{animation:fold .42s cubic-bezier(.6,0,.9,.5) both}
-.flat .pl{animation:none;transform:rotateZ(var(--ry,0deg)) translateZ(0) rotateX(0deg)}
-@keyframes stand{
-  0%{transform:rotateZ(var(--ry,0deg)) translateZ(0) rotateX(0deg) scale(.96)}
-  45%{transform:rotateZ(var(--ry,0deg)) translateZ(calc(var(--lift) * var(--L) * 1.6 + 26px * var(--L))) rotateX(calc(var(--up) - 16deg)) scale(1.06)}
-  70%{transform:rotateZ(var(--ry,0deg)) translateZ(calc(var(--lift) * var(--L) * .85)) rotateX(calc(var(--up) + 7deg)) scale(.99)}
-  86%{transform:rotateZ(var(--ry,0deg)) translateZ(calc(var(--lift) * var(--L) * 1.08)) rotateX(calc(var(--up) - 3deg)) scale(1.01)}
-  100%{transform:rotateZ(var(--ry,0deg)) translateZ(calc(var(--lift) * var(--L))) rotateX(var(--up)) scale(1)}}
-@keyframes fold{
-  0%{transform:rotateZ(var(--ry,0deg)) translateZ(calc(var(--lift) * var(--L))) rotateX(var(--up))}
-  100%{transform:rotateZ(var(--ry,0deg)) translateZ(0) rotateX(0deg)}}
+
 .floaters{position:absolute;inset:0 0 40% 0;pointer-events:none;opacity:0;transition:opacity .6s}
 .popped .floaters{opacity:1;transition-delay:1s}.folding .floaters{opacity:0;transition-delay:0s}
 .floaters i{position:absolute;left:var(--x);top:calc(var(--y) + 18%);width:calc(18px * var(--s));height:calc(18px * var(--s));animation:bob 3.2s ease-in-out var(--d) infinite}
