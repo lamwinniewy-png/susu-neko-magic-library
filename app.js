@@ -169,49 +169,6 @@
     return `<svg viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">${shapes[id]}</svg>`;
   };
 
-  /* ---------- 立體紙雕場景 ---------- */
-  const dk = (c, p = 70) => `color-mix(in oklab, ${c} ${p}%, #000)`;
-  const lt = (c, p = 60) => `color-mix(in oklab, ${c} ${p}%, #fff)`;
-  const wingSVG = (id, c, a, flip) => {
-    const t = flip ? ' transform="translate(200 0) scale(-1 1)"' : '';
-    const S = {
-      forest: `<rect x="88" y="120" width="22" height="80" fill="#7a5230"/><path d="M100 10 L160 90 H130 L175 145 H25 L70 90 H40Z" fill="${c}"/><path d="M100 10 L160 90 H130 L175 145 H100Z" fill="${dk(c,80)}"/><circle cx="40" cy="175" r="22" fill="${lt(c,70)}"/><circle cx="160" cy="185" r="16" fill="${a}"/>`,
-      ocean: `<path d="M40 200 C20 160 60 140 40 100 C25 70 55 50 45 20" stroke="${c}" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M80 200 C95 165 70 140 90 110 C105 85 85 70 95 50" stroke="${lt(c,60)}" stroke-width="12" fill="none" stroke-linecap="round"/><path d="M150 200 V140 M150 160 L125 130 V105 M150 150 L175 120 V95 M125 125 L110 110 M175 115 L190 100" stroke="${a}" stroke-width="12" fill="none" stroke-linecap="round"/>`,
-      moon: `<path d="M20 70 Q20 40 50 45 Q60 20 90 30 Q115 15 130 40 Q165 38 160 70Z" fill="#fff8e6"/><line x1="120" y1="0" x2="120" y2="90" stroke="#8a6a3a" stroke-width="3"/><rect x="95" y="90" width="50" height="62" rx="22" fill="#e85a3c"/><rect x="108" y="84" width="24" height="8" fill="${a}"/><rect x="108" y="150" width="24" height="8" fill="${a}"/><path d="M120 158 v28" stroke="${a}" stroke-width="4"/><path d="M60 200 Q60 150 100 175 Q130 150 180 200Z" fill="${c}"/>`,
-      rain: `<rect x="20" y="40" width="70" height="160" fill="${c}"/><rect x="100" y="80" width="80" height="120" fill="${dk(c,80)}"/>${[0,1,2,3,4].map(r=>[0,1].map(k=>`<rect x="${32+k*28}" y="${55+r*28}" width="16" height="16" fill="${a}" opacity=".85"/>`).join('')).join('')}${[0,1,2].map(r=>[0,1].map(k=>`<rect x="${115+k*32}" y="${95+r*30}" width="18" height="16" fill="#ffe9a8" opacity=".8"/>`).join('')).join('')}<rect x="14" y="30" width="82" height="12" fill="${dk(c,60)}"/>`,
-      sports: `<line x1="60" y1="20" x2="60" y2="200" stroke="#8a6a3a" stroke-width="6"/><path d="M63 24 L150 45 L63 70Z" fill="#e85a3c"/><path d="M0 200 V150 H200 V200Z" fill="${c}"/><path d="M0 150 H200 M0 175 H200" stroke="#fff" stroke-width="4"/>${[0,1,2,3,4,5].map(k=>`<circle cx="${20+k*32}" cy="140" r="9" fill="${[a,'#fff','#e85a3c'][k%3]}"/>`).join('')}`
-    };
-    return `<svg viewBox="0 0 200 200" aria-hidden="true"><g${t}>${S[id]}</g></svg>`;
-  };
-  const propSVG = (id, c, a, k) => {
-    const P = {
-      forest: [`<path d="M50 50 C20 10 0 40 20 60 C0 80 30 95 50 60 C70 95 100 80 80 60 C100 40 80 10 50 50Z" fill="${a}"/><rect x="47" y="40" width="6" height="40" rx="3" fill="#5a3a20"/>`, `<path d="M15 55 Q50 0 85 55Z" fill="#e85a3c"/><circle cx="35" cy="40" r="6" fill="#fff"/><circle cx="62" cy="34" r="5" fill="#fff"/><rect x="40" y="55" width="20" height="40" rx="6" fill="#fff4dc"/>`],
-      ocean: [`<path d="M15 50 Q45 15 75 50 Q45 85 15 50Z M75 50 L95 30 V70Z" fill="${a}"/><circle cx="32" cy="45" r="5" fill="#222"/>`, `<path d="M50 90 L10 40 Q50 0 90 40Z" fill="#ffc9b8"/><path d="M50 90 L30 25 M50 90 L50 15 M50 90 L70 25" stroke="#e8907a" stroke-width="4"/>`],
-      moon: [`<path d="M50 5 L62 38 L97 38 L69 58 L80 92 L50 72 L20 92 L31 58 L3 38 L38 38Z" fill="${a}"/>`, `<circle cx="50" cy="55" r="38" fill="#d9a050"/><circle cx="50" cy="55" r="26" fill="none" stroke="#a8702a" stroke-width="4"/><path d="M38 55 h24 M50 43 v24" stroke="#a8702a" stroke-width="4"/>`],
-      rain: [`<path d="M8 50 Q50 0 92 50 Q80 42 70 50 Q60 42 50 50 Q40 42 30 50 Q20 42 8 50Z" fill="#e85a3c"/><path d="M50 50 V88 Q50 96 42 94" stroke="#5a3a20" stroke-width="5" fill="none"/>`, `<path d="M50 8 C70 40 82 55 82 70 A32 32 0 0 1 18 70 C18 55 30 40 50 8Z" fill="${lt(c,55)}"/>`],
-      sports: [`<circle cx="50" cy="50" r="40" fill="#fff"/><path d="M50 22 L66 34 L60 54 H40 L34 34Z" fill="#222"/>`, `<path d="M25 15 H75 V40 A25 25 0 0 1 25 40Z" fill="${a}"/><rect x="44" y="62" width="12" height="18" fill="${a}"/><rect x="30" y="80" width="40" height="12" rx="3" fill="#8a6a3a"/>`]
-    };
-    return `<svg viewBox="0 0 100 100" aria-hidden="true">${P[id][k]}</svg>`;
-  };
-  const floatSVG = (id, a) => ({forest:`<path d="M10 2 C18 8 18 16 10 18 C2 16 2 8 10 2Z" fill="#8fd18a"/>`,ocean:`<circle cx="10" cy="10" r="8" fill="none" stroke="#fff" stroke-width="2"/><circle cx="7" cy="7" r="2" fill="#fff"/>`,moon:`<path d="M10 1 L12.5 7.5 L19 8 L14 12 L15.5 19 L10 15 L4.5 19 L6 12 L1 8 L7.5 7.5Z" fill="${a}"/>`,rain:`<path d="M10 2 C14 8 16 11 16 14 A6 6 0 0 1 4 14 C4 11 6 8 10 2Z" fill="#a8d8ff"/>`,sports:`<path d="M10 1 L12.5 7.5 L19 8 L14 12 L15.5 19 L10 15 L4.5 19 L6 12 L1 8 L7.5 7.5Z" fill="#fff"/>`})[id];
-  const popScene = (p, idx, ws) => {
-    const {id, color:c, accent:a} = cur;
-    const fl = Array.from({length:7},(_,i)=>`<i style="--x:${8+i*13}%;--y:${8+(i*37)%40}%;--d:${(i*.7)%3}s;--s:${.8+(i%3)*.35}">${'<svg viewBox="0 0 20 20">'+floatSVG(id,a)+'</svg>'}</i>`).join('');
-    return `<div class="pop">
-      <div class="pop-floor">
-        <div class="sh sh-card" style="--z:46%;--dl:.2s"></div><div class="sh sh-wl" style="--z:24%;--dl:.4s"></div><div class="sh sh-wr" style="--z:24%;--dl:.45s"></div>
-        <div class="pl pl-card" style="--z:46%;--dl:.05s"><i class="thick"></i><img src="assets/img/${p.img}.webp" alt="故事插圖：第 ${idx + 1} 頁" loading="eager"></div>
-        <div class="pl pl-wing l" style="--z:24%;--dl:.3s">${wingSVG(id,c,a,false)}</div>
-        <div class="pl pl-wing r" style="--z:24%;--dl:.38s">${wingSVG(id,c,a,true)}</div>
-        <div class="pl pl-prop p1" style="--z:16%;--dl:.55s">${propSVG(id,c,a,0)}</div>
-        <div class="pl pl-prop p2" style="--z:12%;--dl:.62s">${propSVG(id,c,a,1)}</div>
-        <div class="pl pl-front" style="--z:0%;--dl:.45s">${frontSVG(c, a, id)}</div>
-      </div>
-      <div class="floaters">${fl}</div>
-      <div class="pop-tags">${ws.map((w, k) => `<button class="tag vw-tag" data-w="${w}" style="--k:${k};animation-delay:${1.1 + k * .15}s">${w}</button>`).join('')}</div>
-    </div>`;
-  };
-
   const pageHTML = (idx) => {
     if (idx < cur.pages.length) {
       const p = cur.pages[idx];
@@ -223,7 +180,11 @@
             <div class="tapme">點一點 <i>黃色詞語</i>，看看它的意思</div>
             ${idx === 0 || /一邊|因為|首先|雖然|像/.test(p.text) ? `<div class="pattern"><b>句式小魔法：</b>「${cur.pattern.name}」${cur.pattern.tip}<br>例：${cur.pattern.example}</div>` : ''}
           </div>`,
-        right: popScene(p, idx, ws)
+        right: `<div class="pop">
+            <div class="pop-card"><img src="assets/img/${p.img}.webp" alt="故事插圖：第 ${idx + 1} 頁" loading="eager"></div>
+            <div class="pop-front">${frontSVG(cur.color, cur.accent, cur.id)}</div>
+            <div class="pop-tags">${ws.map((w, k) => `<button class="tag vw-tag" data-w="${w}" style="animation-delay:${.9 + k * .15}s">${w}</button>`).join('')}</div>
+          </div>`
       };
     }
     const all = Object.keys(cur.words);
@@ -257,36 +218,7 @@
     $('#btnRead').style.visibility = spreadIdx < cur.pages.length ? 'visible' : 'hidden';
     if (book.classList.contains('open')) popNow();
   };
-  // 紙雕動畫：用 JS 計算數值，避免部分 Safari 不支援關鍵幀內的 CSS 變數
-  const plVals = (el, L) => {
-    const cs = getComputedStyle(el), n = (k, d) => { const v = parseFloat(cs.getPropertyValue(k)); return isNaN(v) ? d : v; };
-    return { up: n('--up', -80), ry: n('--ry', 0), lift: n('--lift', 0) * L, dl: n('--dl', 0) * 1000 };
-  };
-  const tf = (ry, z, x, sc = 1) => `rotateZ(${ry}deg) translateZ(${z}px) rotateX(${x}deg) scale(${sc})`;
-  const popLayers = (pop, mode) => {
-    const L = parseFloat(getComputedStyle(pop).getPropertyValue('--L')) || 1;
-    $$('.pl', pop).forEach(el => {
-      const v = plVals(el, L); el.getAnimations().forEach(a => a.cancel());
-      const up = tf(v.ry, v.lift, v.up), flat = tf(v.ry, 0, 0);
-      if (mode === 'flat') { el.style.transform = flat; return; }
-      if (reduce) { el.style.transform = mode === 'up' ? up : flat; return; }
-      if (mode === 'up') {
-        el.style.transform = flat;
-        const a = el.animate([
-          { transform: tf(v.ry, 0, 0, .96) },
-          { transform: tf(v.ry, v.lift * 1.6 + 26 * L, v.up - 16, 1.06), offset: .45 },
-          { transform: tf(v.ry, v.lift * .85, v.up + 7, .99), offset: .7 },
-          { transform: tf(v.ry, v.lift * 1.08, v.up - 3, 1.01), offset: .86 },
-          { transform: up }
-        ], { duration: 1250, delay: v.dl, easing: 'cubic-bezier(.25,.9,.3,1)', fill: 'both' });
-        a.onfinish = () => { el.style.transform = up; a.cancel(); };
-      } else {
-        const from = el.style.transform || up; el.style.transform = flat;
-        el.animate([{ transform: from }, { transform: flat }], { duration: 420, easing: 'cubic-bezier(.6,0,.9,.5)' });
-      }
-    });
-  };
-  const popNow = () => { const pop = $('#pageRight .pop'); if (!pop) return; pop.classList.remove('popped', 'folding'); popLayers(pop, 'flat'); void pop.offsetWidth; pop.classList.add('popped'); popLayers(pop, 'up'); };
+  const popNow = () => { const pop = $('#pageRight .pop'); if (!pop) return; pop.classList.remove('popped'); void pop.offsetWidth; pop.classList.add('popped'); };
 
   const flip = (dir) => {
     if (busy || !cur) return;
@@ -296,12 +228,6 @@
     const leaf = $('#leaf');
     if (innerWidth <= 700 || reduce) { spreadIdx = n; renderSpread(); return; }
     busy = true;
-    const curPop = $('#pageRight .pop');
-    if (curPop && curPop.classList.contains('popped')) { curPop.classList.add('folding'); popLayers(curPop, 'fold'); setTimeout(() => doFlip(n, dir), 420); }
-    else doFlip(n, dir);
-  };
-  const doFlip = (n, dir) => {
-    const leaf = $('#leaf');
     const nh = pageHTML(n);
     const front = leaf.querySelector('.leaf-front'), back = leaf.querySelector('.leaf-back');
     leaf.className = 'leaf ' + (dir > 0 ? 'fwd' : 'back');
@@ -312,7 +238,7 @@
       front.innerHTML = $('#pageLeft').innerHTML; back.innerHTML = nh.right;
       $('#pageLeft').innerHTML = nh.left;
     }
-    { const fp = front.querySelector('.pop'); if (fp) { fp.classList.add('flat'); } }
+    front.querySelector('.pop')?.classList.add('popped');
     leaf.style.display = 'block'; void leaf.offsetWidth; leaf.classList.add('go');
     setTimeout(() => { spreadIdx = n; leaf.style.display = 'none'; leaf.className = 'leaf'; renderSpread(); busy = false; }, 820);
   };
@@ -330,13 +256,12 @@
 
   $('#btnRead').onclick = () => { if (cur && spreadIdx < cur.pages.length) say(cur.pages[spreadIdx].text, .8); };
 
-  // 立體傾斜：轉動紙雕舞台
+  // 立體傾斜
   $('#pageRight').addEventListener('pointermove', e => {
-    const f = $('#pageRight .popped .pop-floor'); if (!f || reduce || e.pointerType !== 'mouse') return; f.classList.add('manual');
+    const card = $('#pageRight .popped .pop-card'); if (!card || innerWidth <= 700) return;
     const r = e.currentTarget.getBoundingClientRect(); const nx = (e.clientX - r.left) / r.width - .5, ny = (e.clientY - r.top) / r.height - .5;
-    f.style.setProperty('--rz', `${nx * -10}deg`); f.style.setProperty('--rx', `${ny * 8}deg`);
+    card.style.animation = 'none'; card.style.transform = `rotateX(${-4 - ny * 6}deg) rotateY(${nx * 8}deg)`;
   });
-  $('#pageRight').addEventListener('pointerleave', () => { const f = $('#pageRight .pop-floor'); f?.classList.remove('manual'); f?.style.setProperty('--rz','0deg'); f?.style.setProperty('--rx','0deg'); });
 
   /* ---------- 詞語卡 ---------- */
   const findWord = (w) => { for (const b of BOOKS) if (b.words[w]) return { b, d: b.words[w] }; };
