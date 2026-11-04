@@ -27,7 +27,7 @@
   let player = null;
   const stopSay = () => { if (player) { player.pause(); player = null; } try { speechSynthesis.cancel(); } catch (e) {} };
   const say = (text, rate = 0.85) => {
-    const key = text.replace(/[【】]/g, '').trim();
+    const key = text.replace(/[【】〖〗]/g, '').trim();
     stopSay();
     // 粵語用裝置內置的香港廣東話語音；普通話用預錄的小朋友聲音
     const f = store.voice === 'cmn' ? window.AUDIO?.cmn?.[key] : null;
@@ -77,10 +77,17 @@
     map: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M15 4 9 2 3 4v18l6-2 6 2 6-2V2zm0 15.8-6-2V4.2l6 2z"/></svg>',
     bell: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M12 22a2.5 2.5 0 0 0 2.5-2.5h-5A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.8V3a1.5 1.5 0 0 0-3 0v1.2A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg>',
     trophy: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M18 4V2H6v2H2v3a4 4 0 0 0 4 4h.4A6 6 0 0 0 11 14.9V18H7v3h10v-3h-4v-3.1a6 6 0 0 0 4.6-3.9h.4a4 4 0 0 0 4-4V4zM6 9a2 2 0 0 1-2-2V6h2zm14-2a2 2 0 0 1-2 2V6h2z"/></svg>',
+    sprite: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><circle cx="12" cy="7" r="3.2"/><path d="M12 11c-2.5 0-4 1.8-4 4.5V21h8v-5.5c0-2.7-1.5-4.5-4-4.5zM7.5 11.5C4 9 2 10 2 13c2 0 4 .2 5.5-1.5zm9 0C20 9 22 10 22 13c-2 0-4 .2-5.5-1.5z"/></svg>',
+    paw: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><ellipse cx="6" cy="10" rx="2.2" ry="2.8"/><ellipse cx="10" cy="6" rx="2.2" ry="2.8"/><ellipse cx="14" cy="6" rx="2.2" ry="2.8"/><ellipse cx="18" cy="10" rx="2.2" ry="2.8"/><path d="M12 11c-3 0-6 4-6 7 0 2 1.6 3 3.4 2.4 1.7-.6 3.5-.6 5.2 0C16.4 21 18 20 18 18c0-3-3-7-6-7z"/></svg>',
+    bear: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M12 5a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm-3 6.5a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zm6 0a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zM12 15c1.4 0 2.4.8 2.4 1.8S13.4 18.6 12 18.6s-2.4-.8-2.4-1.8S10.6 15 12 15z"/></svg>',
+    bulb: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2zM9 18h6v1.5a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 19.5z"/></svg>',
+    drop: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M12 2s-7 8-7 13a7 7 0 0 0 14 0c0-5-7-13-7-13z"/></svg>',
+    book: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M2 5c3-1.5 6.5-1.5 9 .5V21c-2.5-2-6-2-9-.5zm20 0c-3-1.5-6.5-1.5-9 .5V21c2.5-2 6-2 9-.5z"/></svg>',
+    crown: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 11H5zm2 13h14v2H5z"/></svg>',
     star: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg>'
   };
   const heights = [262, 248, 270, 255, 266];
-  const rowMagic = $('#rowMagic'), rowExam = $('#rowExam');
+  const rowMagic = $('#rowMagic'), rowExam = $('#rowExam'), rowExam2 = $('#rowExam2');
   const spineFor = (b, i, k) => {
     const bt = document.createElement('button');
     bt.className = 'spine';
@@ -93,11 +100,13 @@
     return bt;
   };
   const renderShelf = () => {
-    rowMagic.innerHTML = ''; rowExam.innerHTML = '';
-    let km = 0, ke = 0;
-    rowExam.insertAdjacentHTML('beforeend', '<div class="exam-plaque"><b>11月12日</b>中文評估<br>魔法書</div>');
+    rowMagic.innerHTML = ''; rowExam.innerHTML = ''; rowExam2.innerHTML = '';
+    let km = 0, ke = 0, kf = 0;
+    rowExam.insertAdjacentHTML('beforeend', '<div class="exam-plaque"><b>11月12日</b>中文評估<br>課文</div>');
+    rowExam2.insertAdjacentHTML('beforeend', '<div class="exam-plaque"><b>11月12日</b>語文練習<br>閱讀・模擬</div>');
     BOOKS.forEach((b, i) => {
       if (b.group === 'exam') rowExam.appendChild(spineFor(b, i, ke++));
+      else if (b.group === 'exam2') rowExam2.appendChild(spineFor(b, i, kf++));
       else rowMagic.appendChild(spineFor(b, i, km++));
     });
     rowMagic.insertAdjacentHTML('beforeend','<span class="lean" style="--c:#6b2d3a"></span><span class="candle" aria-hidden="true"></span>');
@@ -158,7 +167,7 @@
 
   const markup = (text, words) => {
     let first = true;
-    return text.replace(/【(.+?)】([，。！？、」：；]*)/g, (_, w, pu) => `<span class="nb"><button class="vw ${store.learned[w] ? 'learned' : ''}" data-w="${w}">${w}</button>${pu}</span>`);
+    return text.replace(/【(.+?)】([，。！？、」：；]*)/g, (_, w, pu) => `<span class="nb"><button class="vw ${store.learned[w] ? 'learned' : ''}" data-w="${w}">${w}</button>${pu}</span>`).replace(/〖(.+?)〗/g, '<mark class="gm">$1</mark>');
   };
 
   const frontSVG = (c, a, id) => {
@@ -194,22 +203,26 @@
     }
     const all = Object.keys(cur.words);
     const g = store.games[cur.id] || {};
+    const gb = (id, icon, t, d) => `<button class="game-btn ${g[id] ? 'done' : ''}" data-g="${id}"><span class="gi">${icon}</span><b>${t}</b><span>${d}</span></button>`;
+    const extra = (cur.learn ? gb('learn', '📜', '魔法課堂', cur.kind === 'reading' ? '先讀一讀三篇文章' : '温習課文和知識重點') : '') +
+      (cur.qs ? gb('quiz', '🏆', cur.kind === 'mock' ? '模擬評估' : cur.kind === 'reading' ? '閱讀挑戰' : cur.kind === 'grammar' ? '練習挑戰' : '課文挑戰', cur.kind === 'mock' ? '隨機 25 題，看看你學會了多少' : '做做評估模擬題') : '');
+    const wordGames = all.length ? gb('match', '🧩', '詞語配對', '把詞語和意思配成一對') + gb('fill', '✏️', '句子填充', '選出正確的詞語') + gb('listen', '🫧', '聽音找詞', '聽一聽，戳破泡泡') + (cur.write && cur.write.length ? gb('write', '🖌️', '寫字練習', '跟着筆順寫一寫') : '') : '';
+    const leftTop = all.length
+      ? `<p>這本魔法書藏着 ${all.length} 個魔法詞語。點一點，温習一下吧！</p>
+          <div class="wordwall">${all.map(w => `<button class="vw ${store.learned[w] ? 'learned' : ''}" data-w="${w}">${w}</button>`).join('')}</div>`
+      : `<p>打開「魔法課堂」，看看這本書要學的重點：</p>
+          <div class="learn-list">${(cur.learn || []).map((c, k) => `<button class="ll" data-card="${k}">${c[0].replace(/<[^>]+>.*?<\/[^>]+>/g, '')}</button>`).join('')}</div>`;
     return {
       left: `<div class="end">
           <h3>故事完了！</h3>
-          <p>這本魔法書藏着 ${all.length} 個魔法詞語。點一點，温習一下吧！</p>
-          <div class="wordwall">${all.map(w => `<button class="vw ${store.learned[w] ? 'learned' : ''}" data-w="${w}">${w}</button>`).join('')}</div>
-          <div class="pattern"><b>句式小魔法：</b>「${cur.pattern.name}」${cur.pattern.tip}<br>例：${cur.pattern.example}</div>
+          ${cur.lesson ? `<div class="lesson-tag">評估範圍：${cur.lesson}</div>` : ''}
+          ${leftTop}
+          <div class="pattern"><b>${cur.kind === 'reading' || cur.kind === 'mock' ? '小貼士' : '句式小魔法'}：</b>「${cur.pattern.name}」${cur.pattern.tip}<br>例：${cur.pattern.example}</div>
         </div>`,
       right: `<div class="end">
           <h3>魔法挑戰</h3>
           <p>完成挑戰，就可以收集魔法星星！</p>
-          <div class="games">
-            <button class="game-btn ${g.match ? 'done' : ''}" data-g="match"><span class="gi">🧩</span><b>詞語配對</b><span>把詞語和意思配成一對</span></button>
-            <button class="game-btn ${g.fill ? 'done' : ''}" data-g="fill"><span class="gi">✏️</span><b>句子填充</b><span>選出正確的詞語</span></button>
-            <button class="game-btn ${g.listen ? 'done' : ''}" data-g="listen"><span class="gi">🫧</span><b>聽音找詞</b><span>聽一聽，戳破泡泡</span></button>
-            <button class="game-btn ${g.write ? 'done' : ''}" data-g="write"><span class="gi">🖌️</span><b>寫字練習</b><span>跟着筆順寫一寫</span></button>
-          </div>
+          <div class="games ${extra && wordGames ? 'six' : ''}">${extra}${wordGames}</div>
         </div>`
     };
   };
@@ -269,7 +282,7 @@
   });
 
   /* ---------- 詞語卡 ---------- */
-  const findWord = (w) => { for (const b of BOOKS) if (b.words[w]) return { b, d: b.words[w] }; };
+  const findWord = (w) => { for (const b of BOOKS) if (b.words && b.words[w]) return { b, d: b.words[w] }; };
   const sentOf = (w, b) => { const p = b.pages.find(p => p.text.includes(`【${w}】`)); return p ? p.text.replace(/【(.+?)】/g, (_, x) => x === w ? `<mark>${x}</mark>` : x) : ''; };
   let curWord = null;
   const openWord = (w) => {
@@ -286,6 +299,7 @@
   document.addEventListener('click', e => {
     const v = e.target.closest('.vw, .vw-tag'); if (v && v.dataset.w) { openWord(v.dataset.w); return; }
     const g = e.target.closest('.game-btn'); if (g) { openGame(g.dataset.g); return; }
+    const ll = e.target.closest('.ll'); if (ll) { openGame('learn', +ll.dataset.card); return; }
     if (e.target.matches('[data-close]') || e.target.classList.contains('modal')) { e.target.closest('.modal').hidden = true; if (hw) { hw = null; } if (!$('#stage').classList.contains('is-active')) return; if (spreadIdx === total() - 1) renderSpread(); }
   });
   addEventListener('keydown', e => { if (e.key === 'Escape') $$('.modal').forEach(m => m.hidden = true); });
@@ -303,7 +317,7 @@
   };
   const openGame = (gid, chars) => {
     panel.hidden = false;
-    ({ match: gMatch, fill: gFill, listen: gListen, write: gWrite })[gid](chars);
+    ({ match: gMatch, fill: gFill, listen: gListen, write: gWrite, learn: gLearn, quiz: gQuiz })[gid](chars);
   };
 
   function gMatch() {
@@ -415,13 +429,106 @@
     make();
   }
 
+
+  /* ---------- 魔法課堂 ---------- */
+  function gLearn(start) {
+    const cards = cur.learn || []; let k = typeof start === 'number' ? start : 0;
+    $('#panelTitle').textContent = '魔法課堂';
+    const plain = h => h.replace(/<br>/g, '，').replace(/<\/p>/g, '。').replace(/<[^>]+>/g, '').replace(/。。/g, '。');
+    const show = () => {
+      const [t, h] = cards[k];
+      pBody.innerHTML = `<div class="progress"><i style="width:${(k + 1) / cards.length * 100}%"></i></div>
+        <p class="sub">第 ${k + 1} 張 / 共 ${cards.length} 張${cur.lesson ? ' · ' + cur.lesson : ''}</p>
+        <div class="learn-card"><h4>${t}</h4><div class="lc-body">${h}</div></div>
+        <div class="wbtns" style="justify-content:space-between">
+          <button id="lPrev" ${k === 0 ? 'disabled' : ''}>‹ 上一張</button>
+          <button id="lSay">讀一讀</button>
+          ${k < cards.length - 1 ? '<button class="pri" id="lNext">下一張 ›</button>' : '<button class="pri" id="lDone">完成 ★</button>'}
+        </div>`;
+      pBody.scrollTop = 0;
+    };
+    pBody.onclick = e => {
+      if (e.target.id === 'lPrev' && k > 0) { stopSay(); k--; show(); }
+      else if (e.target.id === 'lNext') { stopSay(); k++; show(); }
+      else if (e.target.id === 'lSay') say(plain(cards[k][1]), .8);
+      else if (e.target.id === 'lDone') { stopSay(); pBody.onclick = null; finish('learn', 3, '魔法課堂完成了！記住這些重點，評估時就不怕了。'); }
+    };
+    show();
+  }
+
+  /* ---------- 評估挑戰 ---------- */
+  const quizPool = () => {
+    if (!cur.mockAll) return cur.qs;
+    const others = BOOKS.filter(b => b.qs && b.kind !== 'reading' && b.kind !== 'mock').flatMap(b => b.qs);
+    return [...shuffle(cur.qs).slice(0, 15), ...shuffle(others).slice(0, 10)];
+  };
+  function gQuiz() {
+    $('#panelTitle').textContent = cur.kind === 'mock' ? '模擬評估' : '評估挑戰';
+    const N = cur.kind === 'mock' ? 25 : 10;
+    const qs = shuffle(quizPool()).slice(0, N);
+    let i = 0, right = 0, wrongList = [];
+    const show = () => {
+      const q = qs[i]; let tried = false, picked = new Set();
+      const pas = q.p !== undefined && cur.passages ? cur.passages[q.p] : null;
+      let body = '';
+      if (q.type === 'mc') body = `<div class="opts qopts">${shuffle([q.answer, ...q.wrong]).map(o => `<button class="opt qo" data-o="${encodeURIComponent(o)}">${o}</button>`).join('')}</div>`;
+      else if (q.type === 'multi') body = `<div class="opts qopts">${shuffle([...q.answers, ...q.wrong]).map(o => `<button class="opt qo" data-o="${encodeURIComponent(o)}">${o}</button>`).join('')}</div><div class="wbtns" style="justify-content:center"><button class="pri" id="qCheck">對答案</button></div>`;
+      else body = `<div class="ord-ans" id="ordAns"></div><div class="ord-tiles">${shuffle(q.tiles.map((t, k) => ({ t, k }))).map(o => `<button class="tile" data-k="${o.k}">${o.t}</button>`).join('')}</div><div class="wbtns" style="justify-content:center"><button id="qReset">重新排</button><button class="pri" id="qCheck">對答案</button></div>`;
+      pBody.innerHTML = `<div class="progress"><i style="width:${i / qs.length * 100}%"></i></div>
+        <p class="sub">第 ${i + 1} 題 / 共 ${qs.length} 題${q.type === 'multi' ? ' · 選出所有正確答案' : q.type === 'order' ? ' · 按次序點選詞語卡' : ''}</p>
+        ${pas ? `<details class="passage"><summary>📖 看文章《${pas.title}》</summary>${pas.text.map(t => `<p>${t}</p>`).join('')}</details>` : ''}
+        <p class="q qq">${q.text.replace(/＿＿＿＿|＿＿/, '<span class="blank">　</span>')}</p>
+        ${body}<div class="explain" id="qEx" hidden></div>
+        <div class="wbtns" style="justify-content:center"><button class="pri" id="qNext" hidden>${i < qs.length - 1 ? '下一題 ›' : '看結果'}</button></div>`;
+      pBody.scrollTop = 0;
+      let order = [];
+      const done = ok => {
+        if (ok && !tried) right++; else if (!ok) wrongList.push(q);
+        const ex = $('#qEx'); ex.hidden = false;
+        const ans = q.type === 'mc' ? q.answer : q.type === 'multi' ? q.answers.join('、') : q.answer;
+        ex.innerHTML = `${ok ? (tried ? '答對了！' : '答對了，你真棒！') : '答案是：<b>' + ans + '</b>'}${q.explain ? '<br>' + q.explain : ''}`;
+        ex.className = 'explain ' + (ok ? 'good' : 'oops');
+        $$('.qo,.tile,#qCheck,#qReset', pBody).forEach(b => b.disabled = true);
+        $('#qNext').hidden = false;
+        if (ok) burstStars();
+      };
+      pBody.onclick = e => {
+        const b = e.target.closest('button'); if (!b || b.disabled) return;
+        if (b.id === 'qNext') { i++; i < qs.length ? show() : end(); return; }
+        if (q.type === 'mc' && b.classList.contains('qo')) {
+          const o = decodeURIComponent(b.dataset.o);
+          if (o === q.answer) { b.classList.add('ok'); done(true); }
+          else if (!tried) { tried = true; b.classList.add('bad'); }
+          else { b.classList.add('bad'); $$('.qo', pBody).forEach(x => { if (decodeURIComponent(x.dataset.o) === q.answer) x.classList.add('ok'); }); done(false); }
+        } else if (q.type === 'multi') {
+          if (b.classList.contains('qo')) { const o = decodeURIComponent(b.dataset.o); picked.has(o) ? picked.delete(o) : picked.add(o); b.classList.toggle('sel'); }
+          if (b.id === 'qCheck') {
+            const ok = picked.size === q.answers.length && q.answers.every(a => picked.has(a));
+            $$('.qo', pBody).forEach(x => { const o = decodeURIComponent(x.dataset.o); if (q.answers.includes(o)) x.classList.add('ok'); else if (picked.has(o)) x.classList.add('bad'); });
+            done(ok);
+          }
+        } else if (q.type === 'order') {
+          if (b.classList.contains('tile')) { order.push(+b.dataset.k); b.disabled = true; b.classList.add('used'); $('#ordAns').innerHTML = order.map(k => `<span>${q.tiles[k]}</span>`).join(''); }
+          if (b.id === 'qReset') { order = []; $('#ordAns').innerHTML = ''; $$('.tile', pBody).forEach(x => { x.disabled = false; x.classList.remove('used'); }); }
+          if (b.id === 'qCheck') { if (order.length < q.tiles.length) { setBubble('先把所有詞語卡排好啊！'); return; } done(order.map(k => q.tiles[k]).join('') === q.answer); }
+        }
+      };
+    };
+    const end = () => {
+      const pct = right / qs.length;
+      pBody.onclick = null;
+      finish('quiz', pct >= .8 ? 3 : pct >= .5 ? 2 : 1, `答對 ${right} / ${qs.length} 題！` + (wrongList.length ? `<br><small>答錯的題目，可以再玩一次温習。每次題目都會不同。</small>` : '<br>全部答對，你是語文小魔法師！'));
+    };
+    show();
+  }
+
   /* ---------- 詞語寶盒 / 星星 ---------- */
   const openBox = () => {
     panel.hidden = false; $('#panelTitle').textContent = '我的詞語寶盒';
     const n = Object.keys(store.learned).length, tot = BOOKS.reduce((s, b) => s + Object.keys(b.words).length, 0);
     pBody.onclick = null;
     pBody.innerHTML = `<p class="sub">已收集 <span class="score">★ ${n} / ${tot} 個詞語</span>　閱讀故事時點一點黃色詞語，就能把它放進寶盒。</p>` +
-      BOOKS.map(b => { const ws = Object.keys(b.words); const g = ws.filter(w => store.learned[w]).length;
+      BOOKS.filter(b => Object.keys(b.words).length).map(b => { const ws = Object.keys(b.words); const g = ws.filter(w => store.learned[w]).length;
         return `<div class="box-sec"><span>《${b.title}》</span><span>${g} / ${ws.length}</span></div><div class="box-grid">${ws.map(w => store.learned[w] ? `<button class="box-word got vw" style="--c:${b.color}" data-w="${w}">${w}</button>` : `<div class="box-word">？？</div>`).join('')}</div>`; }).join('') +
       `<p class="note">家長小貼士：所有詞語選自小學第一學習階段（小一至小三）常用詞語，配合教育局《香港小學學習字詞表》的學習範圍。進度只儲存在這部裝置。</p>`;
   };
