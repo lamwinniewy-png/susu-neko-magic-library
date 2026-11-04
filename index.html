@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chiron+GoRound+TC:wght@400;600;800&family=Chiron+Sung+HK:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=8">
+<link rel="stylesheet" href="styles.css?v=9">
 </head>
 <body>
 <canvas id="sparkles" aria-hidden="true"></canvas>
@@ -37,7 +37,7 @@
         <div class="shelf-crown" aria-hidden="true"><span>魔法書櫃</span></div>
         <div class="shelf-row" id="rowMagic"></div>
         <div class="shelf-board" aria-hidden="true"></div>
-        <div class="shelf-row deco" id="rowDeco"></div>
+        <div class="shelf-row exam" id="rowExam"></div>
         <div class="shelf-board" aria-hidden="true"></div>
       </div>
     </div>
@@ -86,12 +86,14 @@
     <button class="x" data-close aria-label="關閉">×</button>
     <div class="wm-ribbon">魔法詞語</div>
     <div class="wm-word" id="wmWord"></div>
+    <div class="wm-jp" id="wmJp" hidden></div>
     <div class="wm-actions">
       <button class="chip" id="wmSay">讀一讀</button>
       <button class="chip" id="wmWrite">寫一寫</button>
     </div>
     <p class="wm-mean" id="wmMean"></p>
     <p class="wm-sent" id="wmSent"></p>
+    <div class="wm-tip" id="wmTip" hidden></div>
   </div>
 </div>
 
@@ -107,8 +109,9 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="assets/js/hanzi-writer.min.js"></script>
-<script src="data.js?v=8"></script>
-  <script src="audio.js?v=8"></script>
-<script src="app.js?v=8"></script>
+<script src="data.js?v=9"></script>
+<script src="exam.js?v=9"></script>
+  <script src="audio.js?v=9"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>

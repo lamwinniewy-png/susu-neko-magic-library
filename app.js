@@ -72,32 +72,36 @@
     shell: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M12 3C6 3 2 8 2 13c0 1 1 2 2 2l3 5h10l3-5c1 0 2-1 2-2 0-5-4-10-10-10zm-1 15-2-9h2zm2 0V9h2zm-5-1-3-5 3-1zm8 0V11l3 1z"/></svg>',
     moon: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M14.5 2A10 10 0 1 0 22 15.5 8 8 0 0 1 14.5 2z"/></svg>',
     umbrella: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M12 2C6.5 2 2 6 2 11h9v8a2 2 0 0 1-4 0H5a4 4 0 0 0 8 0v-8h9c0-5-4.5-9-10-9z"/></svg>',
+    monster: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M12 3c-4.4 0-8 3.4-8 8v9l2.2-1.6L8.4 20l1.8-1.6L12 20l1.8-1.6 1.8 1.6 2.2-1.6L20 20v-9c0-4.6-3.6-8-8-8zM9 9.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm6 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zM9 15h6l-3 2z"/></svg>',
+    house: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M12 3 2 11.5h3V21h5.5v-6h3v6H19v-9.5h3z"/></svg>',
+    map: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M15 4 9 2 3 4v18l6-2 6 2 6-2V2zm0 15.8-6-2V4.2l6 2z"/></svg>',
+    bell: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M12 22a2.5 2.5 0 0 0 2.5-2.5h-5A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.8V3a1.5 1.5 0 0 0-3 0v1.2A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg>',
+    trophy: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M18 4V2H6v2H2v3a4 4 0 0 0 4 4h.4A6 6 0 0 0 11 14.9V18H7v3h10v-3h-4v-3.1a6 6 0 0 0 4.6-3.9h.4a4 4 0 0 0 4-4V4zM6 9a2 2 0 0 1-2-2V6h2zm14-2a2 2 0 0 1-2 2V6h2z"/></svg>',
     star: '<svg viewBox="0 0 24 24" class="sp-emb" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.5 6.8L12 17l-6.1 3.4 1.5-6.8L2.2 9l6.9-.7z"/></svg>'
   };
   const heights = [262, 248, 270, 255, 266];
-  const rowMagic = $('#rowMagic');
+  const rowMagic = $('#rowMagic'), rowExam = $('#rowExam');
+  const spineFor = (b, i, k) => {
+    const bt = document.createElement('button');
+    bt.className = 'spine';
+    bt.style.setProperty('--c', b.spine); bt.style.setProperty('--h', heights[k % heights.length] + 'px'); bt.style.setProperty('--d', (k * .7) + 's');
+    bt.setAttribute('aria-label', `魔法書：${b.title}`);
+    const done = Object.keys(store.games[b.id] || {}).length;
+    bt.innerHTML = `${EMB[b.emblem]}<span class="sp-title">${b.title}</span>` + (done ? `<span class="sp-done">${'★'.repeat(Math.min(done, 4))}</span>` : (i === 0 && !Object.keys(store.learned).length ? '<span class="sp-new">先讀</span>' : ''));
+    bt.onclick = () => pullBook(i, bt);
+    bt.onmouseenter = () => setBubble(`《${b.title}》<br>${b.subtitle}`);
+    return bt;
+  };
   const renderShelf = () => {
-    rowMagic.innerHTML = '';
+    rowMagic.innerHTML = ''; rowExam.innerHTML = '';
+    let km = 0, ke = 0;
+    rowExam.insertAdjacentHTML('beforeend', '<div class="exam-plaque"><b>11月12日</b>中文評估<br>魔法書</div>');
     BOOKS.forEach((b, i) => {
-      const bt = document.createElement('button');
-      bt.className = 'spine';
-      bt.style.setProperty('--c', b.spine); bt.style.setProperty('--h', heights[i] + 'px'); bt.style.setProperty('--d', (i * .7) + 's');
-      bt.setAttribute('aria-label', `魔法書：${b.title}`);
-      const done = Object.keys(store.games[b.id] || {}).length;
-      bt.innerHTML = `${EMB[b.emblem]}<span class="sp-title">${b.title}</span>` + (done ? `<span class="sp-done">${'★'.repeat(Math.min(done, 4))}</span>` : (i === 0 && !Object.keys(store.learned).length ? '<span class="sp-new">先讀</span>' : ''));
-      bt.onclick = () => pullBook(i, bt);
-      bt.onmouseenter = () => setBubble(`《${b.title}》<br>${b.subtitle}`);
-      rowMagic.appendChild(bt);
+      if (b.group === 'exam') rowExam.appendChild(spineFor(b, i, ke++));
+      else rowMagic.appendChild(spineFor(b, i, km++));
     });
     rowMagic.insertAdjacentHTML('beforeend','<span class="lean" style="--c:#6b2d3a"></span><span class="candle" aria-hidden="true"></span>');
-    // 裝飾書
-    const deco = $('#rowDeco'); deco.innerHTML = '';
-    const cols = ['#6b2d3a', '#2c4a6b', '#7a6a2c', '#3e2a5a', '#5a3a22', '#26574d', '#8a3c2a', '#40305a'];
-    const add = (html) => deco.insertAdjacentHTML('beforeend', html);
-    for (let i = 0; i < 6; i++) add(`<span class="deco-book" style="--c:${cols[i]};--w:${22 + (i * 7) % 16}px;--h:${120 + (i * 23) % 50}px;--rot:${i === 5 ? 8 : 0}deg"></span>`);
-    add('<span class="orb" aria-hidden="true"></span>');
-    add('<div class="locked"><span class="lk">🔒</span>新魔法書<br>即將出現</div>');
-    for (let i = 0; i < 5; i++) add(`<span class="deco-book" style="--c:${cols[(i + 3) % 8]};--w:${24 + (i * 5) % 14}px;--h:${130 + (i * 17) % 40}px"></span>`);
+    rowExam.insertAdjacentHTML('beforeend','<span class="lean" style="--c:#2c4a6b"></span><span class="orb" aria-hidden="true"></span>');
   };
   renderShelf();
 
@@ -271,6 +275,8 @@
   const openWord = (w) => {
     const f = findWord(w); if (!f) return; curWord = w;
     $('#wmWord').textContent = w; $('#wmMean').textContent = f.d.mean; $('#wmSent').innerHTML = sentOf(w, f.b);
+    $('#wmJp').hidden = !f.d.jp; $('#wmJp').textContent = f.d.jp ? `粵拼：${f.d.jp}` : '';
+    $('#wmTip').hidden = !f.d.tip; $('#wmTip').innerHTML = f.d.tip ? `<b>記字小貼士</b>${f.d.tip}` + (f.d.wrong ? `<span class="wm-wrong">不要寫成：<s>${f.d.wrong}</s></span>` : '') : '';
     $('#wordModal').hidden = false; say(w, .75);
     if (!store.learned[w]) { store.learned[w] = 1; save(); addStars(1, `學會「${w}」！得到 1 粒星星`); $$(`.vw[data-w="${w}"]`).forEach(e => e.classList.add('learned')); }
     setTimeout(() => $('#wmSay').focus(), 50);
@@ -316,7 +322,7 @@
     };
   }
 
-  const CONFUSE = [['努力','堅持'],['害怕','擔心'],['認真','耐心'],['明亮','漂亮'],['響亮','熱烈'],['果然','忽然','終於'],['驚喜','禮物'],['首先','然後','最後'],['幫忙','合作']];
+  const CONFUSE = [['努力','堅持'],['害怕','擔心'],['認真','耐心'],['明亮','漂亮'],['響亮','熱烈'],['果然','忽然','終於'],['驚喜','禮物'],['首先','然後','最後'],['幫忙','合作'],['開始','幫忙'],['激動','神氣'],['擔心','激動'],['表揚','批評'],['旅遊','尋找']];
   function gFill() {
     $('#panelTitle').textContent = '句子填充';
     const all = Object.keys(cur.words), qs = shuffle(all).slice(0, 5);
